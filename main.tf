@@ -59,7 +59,7 @@ resource "aws_iam_role_policy_attachment" "attach" {
 }
 
 #creating instance profile(because role doesn't directly attach to ec2 -- instance profile will bind atttach to ec2)
-    resoure "aws_iam_instance_profile" "instance_profile" {
+    resource "aws_iam_instance_profile" "instance_profile" {
        name = "ec2 to read secrets from screts manager"
        role = aws_iam_role.assume_role.name
   }      
@@ -72,6 +72,6 @@ resource "aws_instance" "EC2WithSecretAccess" {
 
     tags = {
     Name = "EC2WithSecretAccess"
-  }
+    }
 }
-}
+
