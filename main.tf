@@ -1,13 +1,13 @@
 #creating secret manager
-resource "aws_secretsmanager_secret" "my_secret" {
-  name = "my_secret"
+resource "aws_secretsmanager_secret" "my_secret1" {
+  name = "my_secret1"
   description = "to store  db secret"
 }
   
 #creating secrets value to store secrets value
 
-resource "aws_secretsmanager_secret_version" "my_secret_value" {
-  secret_id = aws_secretsmanager_secret.my_secret.id
+resource "aws_secretsmanager_secret_version" "my_secret_value1" {
+  secret_id = aws_secretsmanager_secret.my_secret1.id
   secret_string = jsonencode({
     username = "admin"
     password = "SuperSecret123!"
@@ -30,21 +30,21 @@ data "aws_iam_policy_document" "assume_role_policy1" {
 
 #creating role
 
-resource "aws_iam_role" "assume_role" {
-    name = "assue_role"
+resource "aws_iam_role" "assume_role1" {
+    name = "assume_role1"
     assume_role_policy = data.aws_iam_policy_document.assume_role_policy1.json
 }
 
 #creating policy and attaching it to role to get secrets
 
-resource "aws_iam_policy" "ec2_policy" {
+resource "aws_iam_policy" "ec2_policy1" {
     policy = jsonencode({
        Version = "2012-10-17",
        Statement = [
           {
             Effect   = "Allow",
             Action   = ["secretsmanager:GetSecretValue"],
-            Resource = aws_secretsmanager_secret.my_secret.arn
+            Resource = aws_secretsmanager_secret.my_secret1.arn
       }
     ]
   })
@@ -52,26 +52,26 @@ resource "aws_iam_policy" "ec2_policy" {
 
 #attaching policy to role
 
-resource "aws_iam_role_policy_attachment" "attach" {
-   policy_arn = aws_iam_policy.ec2_policy.arn
-   role   = aws_iam_role.assume_role.name
+resource "aws_iam_role_policy_attachment" "attach1" {
+   policy_arn = aws_iam_policy.ec2_policy1.arn
+   role   = aws_iam_role.assume_role1.name
 }
 
 #creating instance profile(because role doesn't directly attach to ec2 -- instance profile will bind atttach to ec2)
-    resource "aws_iam_instance_profile" "instance_profile" {
+    resource "aws_iam_instance_profile" "instance_profile1" {
        name = "ec2toreadsecretsfromscretsmanager"
-       role = aws_iam_role.assume_role.name
+       role = aws_iam_role.assume_role1.name
   }      
 #creating instance 
-resource "aws_instance" "EC2secrets" {
+resource "aws_instance" "EC2secrets1" {
   ami = var.ami_id
   key_name = var.key_name
   instance_type = var.instance_type
 
-  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+  iam_instance_profile = aws_iam_instance_profile.instance_profile1.name
 
     tags = {
-    Name = "EC2WithSecretAccess"
+    Name = "EC2secrets1"
     }
 }
 
