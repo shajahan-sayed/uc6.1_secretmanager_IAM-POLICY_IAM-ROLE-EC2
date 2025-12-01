@@ -2,6 +2,7 @@
 resource "aws_secretsmanager_secret" "my_secret" {
   name = "my_secret"
   description = "to store  db secret"
+}
   
 #creating secrets value to store secrets value
 
