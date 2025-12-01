@@ -16,13 +16,13 @@ resource "aws_secretsmanager_secret_version" "my_secret_value" {
 }
 
 #creating trust policy of iam
-data "aws_iam_policy_document" "assume_role_policy1"" {
+data "aws_iam_policy_document" "assume_role_policy1" {
    statement {
       effect = "Allow"
 
-      principle {
+      principal {
          type = "Service"
-         identifier = ["ec2.a,amazonaws.com"]
+         identifier = ["ec2.amazonaws.com"]
      }
 
     actions = ["sts:AssumeRole"]
