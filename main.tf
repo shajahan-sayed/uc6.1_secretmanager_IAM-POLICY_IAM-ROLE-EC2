@@ -63,7 +63,7 @@ resource "aws_iam_role_policy_attachment" "attach" {
        role = aws_iam_role.assume_role.name
   }      
 #creating instance 
-resource "aws_instance" "EC2WithSecretAccess" {
+resource "aws_instance" "EC2secrets" {
   ami = var.ami_id
   key_name = var.key_name
   instance_type = var.instance_type
