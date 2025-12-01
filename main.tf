@@ -65,6 +65,7 @@ resource "aws_iam_role_policy_attachment" "attach" {
 #creating instance 
 resource "aws_instance" "EC2WithSecretAccess" {
   ami = var.ami_id
+  key_name = var.key_name
   instance_type = var.instance_type
 
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
