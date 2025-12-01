@@ -7,7 +7,6 @@ resource "aws_secretsmanager_secret" "my_secret" {
 #creating secrets value to store secrets value
 
 resource "aws_secretsmanager_secret_version" "my_secret_value" {
-  name = "my_secret_value"
   secret_id = aws_secretsmanager_secret.my_secret.id
   secret_string = jsonencode({
     username = "admin"
@@ -20,7 +19,7 @@ data "aws_iam_policy_document" "assume_role_policy1" {
    statement {
       effect = "Allow"
 
-      principal {
+      principals {
          type = "Service"
          identifier = ["ec2.amazonaws.com"]
      }
